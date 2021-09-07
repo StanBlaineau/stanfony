@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ titre }}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ titre|upper|reverse }}</h1>
+    <p>{{ text }}</p>
+
+    <ul>
+        {% for elem in list %}
+            <li>{{ elem|reverse }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+{% endblock %}
+
+{% block js %}
+    <script src="{{ asset('js/accueil.js') }}"></script>
+{% endblock %}
