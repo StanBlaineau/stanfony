@@ -48,14 +48,53 @@ class HelloWorldController extends AbstractController
     #[Route('/add/contact', name: 'app_add_contact')]
     public function addContact(EntityManagerInterface $em): Response
     {
-       $contact = new Contact();
-       $contact->setFirstname('Johnny');
-       $contact->setName('Bigoude');
-       $contact->setSanitaryPass(false);
+        $contact = new Contact();
+        $contact->setFirstname('Johnny');
+        $contact->setPassword('azerty');
+        $contact->setSanitaryPass(false);
+        $contact->setEmail('chuck@berry.com');
+        $contact->setName('Bigoude');
 
-       $em->persist($contact);
-       $em->flush();
+        /*
+         * //ecriture équivalente
+        $contact = new Contact();
+        $contact
+            ->setEmail('chuck@berry.com')
+            ->setFirstname('Johnny')
+            ->setName('Bigoude')
+            ->setSanitaryPass(false)
+            ->setPassword('azerty');
+         */
+
+        dump($contact);
+
+        $em->persist($contact);
+        $em->flush();
 
        dd($contact);
+    }
+
+    #[Route('/contacts', name: 'app_contacts')]
+    public function contacts(EntityManagerInterface $em): Response
+    {
+        dump(Contact::class);
+
+        //Select * from contact;
+        $contacts = $em->getRepository(Contact::class)->findAll();
+        dump($contacts);
+
+        //select * from contact where password = 'azerty';
+        $contacts = $em->getRepository(Contact::class)->findBy([
+            'password' => 'azerty',
+        ]);
+        dump($contacts);
+
+        //select * from contact where id = 2;
+        $contact = $em->getRepository(Contact::class)->findOneBy([
+            'id' => 2,
+        ]);
+        dump($contact);
+
+        die;
     }
 }
