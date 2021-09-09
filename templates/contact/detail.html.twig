@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail contact{% endblock %}
+
+{% block content %}
+    {# fullName n'est pas une proprieté persisté, mais est une methode de l'entité contact #}
+    <h1>Contact {{ contact.fullName }}</h1>
+
+    <p>
+        <a class="btn btn-link" href="{{ path('contact_list') }}">
+            Retour liste de contacts
+        </a>
+    </p>
+
+    <ul>
+        <li>{{ contact.firstname }}</li>
+        <li>{{ contact.name }}</li>
+        <li>{{ contact.email }}</li>
+        <li>passe sanitaire {{ contact.sanitaryPass ? 'oui' : 'non' }}</li>
+        <li>{{ contact.password }}</li>
+    </ul>
+
+    <p>
+        <a class="btn btn-danger btn-contact-delete" href="{{ path('contact_delete', {id: contact.id}) }}">
+            Supprimer le contact
+        </a>
+    </p>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(function() {
+            $('.btn-contact-delete').click(function(e) {
+                e.preventDefault();
+
+                if (confirm('supprimer ce contact ?')) {
+                    document.location.href = $(this).attr('href');
+                }
+            });
+        });
+    </script>
+{% endblock %}

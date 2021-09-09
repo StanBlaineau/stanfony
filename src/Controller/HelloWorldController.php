@@ -68,6 +68,7 @@ class HelloWorldController extends AbstractController
 
         dump($contact);
 
+        // persist correspond à un INSERT INTO
         $em->persist($contact);
         $em->flush();
 

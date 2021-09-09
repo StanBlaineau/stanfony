@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout de contact{% endblock %}
+
+{% block content %}
+
+    <h1>Ajouter un contact</h1>
+
+    <form action="{{ path('contact_add') }}" method="post" class="my-5">
+        <p>
+            <input type="text" name="name" placeholder="name" class="form-control" />
+        </p>
+
+        <p>
+            <input type="text" name="firstname" placeholder="firstname"  class="form-control" />
+        </p>
+
+        <p>
+            <input type="text" name="email" placeholder="email"  class="form-control" />
+        </p>
+
+        <p>
+            <input type="password" name="password" placeholder="password"  class="form-control" />
+        </p>
+
+        <p>
+            <label>
+                <input type="checkbox" name="sanitaryPass" />
+                sanitaryPass
+            </label>
+        </p>
+
+        <p>
+            <button class="btn btn-warning">Sauvegarder</button>
+        </p>
+    </form>
+
+{% endblock %}

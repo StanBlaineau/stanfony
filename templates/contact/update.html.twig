@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{#
+    - le tilde '~' permet de concatener les chaines de caracteres
+    - 'SET' défini la variable contactName, réutilisable dans la vue
+#}
+{% set contactName = contact.firstname ~ ' ' ~ contact.name %}
+
+{% block title %}Modification de {{ contact.fullName }}{% endblock %}
+
+{% block content %}
+    <h1>Modification de {{ contactName }}</h1>
+
+    {{ form(form) }}
+
+{% endblock %}
