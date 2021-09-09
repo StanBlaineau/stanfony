@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Repository\ContactRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+//https://symfony.com/doc/current/reference/constraints.html
 
 /**
  * @ORM\Entity(repositoryClass=ContactRepository::class)
@@ -18,7 +21,8 @@ class Contact
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank
      */
     private $name;
 
@@ -34,11 +38,20 @@ class Contact
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\Email(
+     *     message = "Cet email '{{ value }}' est non valide."
+     * )
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *      min = 8,
+     *      max = 50,
+     *      minMessage = "Your first name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
+     * )
      */
     private $password;
 
@@ -52,7 +65,7 @@ class Contact
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 

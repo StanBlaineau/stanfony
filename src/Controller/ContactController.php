@@ -104,6 +104,7 @@ class ContactController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            //sauvegarder les modifications faites dans $contact en bdd
             $em->flush();
 
             return $this->redirectToRoute('contact_list');

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création {{ entity_type }}{% endblock %}
+
+{% block content %}
+    <h1>Création {{ entity_type }}</h1>
+
+    {{ form(form) }}
+
+    <table class="table">
+        {% for entity in entities %}
+            <tr>
+                {#
+                    La variable loop est fournie par la boucle for (et n'existe uniquement qu'a l'interieur de cette boucle
+                    elle permet de retrouver plein d'infos comme loop.index, le numéro de l'itération
+                    https://twig.symfony.com/doc/2.x/tags/for.html#the-loop-variable
+                #}
+
+                <td>#{{ loop.index }}</td>
+                <td>{{ entity.nom }}</td>
+                <td>{{ entity.prenom }}</td>
+                <td>{{ entity.dateNaissance|date('d-m-Y') }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -11,6 +11,53 @@
 {% block content %}
     <h1>Modification de {{ contactName }}</h1>
 
-    {{ form(form) }}
+    {#  {{ form(form) }} #}
+
+    {{ form_start(form) }} {# <form action="" method=""> #}
+
+        <div class="row">
+            <div class="col-6">
+
+                <div class="row">
+                    <div class="col-3">
+                        {{ form_label(form.name) }} {# le nom du champ #}
+                        {{ form_errors(form.name) }} {# affiche les éventuelles erreurs du champ #}
+                    </div>
+                    <div class="col-9">
+                        {{ form_widget(form.name) }} {# correspond au <input/> #}
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-6">
+                {{ form_row(form.firstname, {label: 'Prénom', id: 'idprenom', attr: {class: 'classprenom'}}) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                {{ form_row(form.email) }}
+            </div>
+
+            <div class="col-6">
+                {{ form_row(form.password) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                {{ form_row(form.sanitaryPass) }}
+            </div>
+
+            <div class="col-6">
+                {{ form_row(form.submit) }}
+            </div>
+        </div>
+
+        {{ form_row(form.mobile) }}
+
+    {{ form_end(form) }} {# </form> #}
 
 {% endblock %}
