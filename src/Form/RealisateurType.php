@@ -3,7 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Realisateur;
+
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,7 +17,10 @@ class RealisateurType extends AbstractType
         $builder
             ->add('nom')
             ->add('prenom')
-            ->add('dateNaissance')
+            ->add('dateNaissance', DateType::class, [
+                'widget' => 'single_text',
+            ])
+            ->add('submit', SubmitType::class, ['label' => 'Enregistrer'])
         ;
     }
 

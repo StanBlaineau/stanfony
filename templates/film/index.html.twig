@@ -1,7 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}Ajouter un film{% endblock %}
 
 {% block content %}
+    <h1>Ajouter un film</h1>
+    {{ form(form) }}
 
+    <table class="table">
+        {% for film in films %}
+            <tr>
+                <td>#{{ loop.index }}</td>
+                <td>
+                    <img src="{{ film.image }}" alt="{{ film.titre }}"/>
+                </td>
+                <td>{{ film.titre }}</td>
+                <td>{{ film.annee|date('Y') }}</td>
+                <td>{{ film.duree }}</td>
+                <td>{{ film.realisateur ? film.realisateur.nom }}</td>
+                <td>
+                    {% for acteur in film.acteurs %}
+                        {{ acteur.nom }}
+                        {{ not loop.last ? ' / ' }}
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% block css %}
+    <style>
+        table img { height: 50px; }
+    </style>
 {% endblock %}

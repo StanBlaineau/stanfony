@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Interfaces\FilableInterface;
 use App\Repository\FilmRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,8 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=FilmRepository::class)
  */
-class Film
+class Film implements FilableInterface
 {
+    public const FILE_DIR = '/upload/film';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -40,7 +43,7 @@ class Film
     private $duree;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $image;
 
@@ -158,5 +161,10 @@ class Film
         $this->realisateur = $realisateur;
 
         return $this;
+    }
+
+    public function getFileDirectory()
+    {
+        return self::FILE_DIR;
     }
 }
