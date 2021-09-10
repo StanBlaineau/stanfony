@@ -8,14 +8,15 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileService
 {
-    public $projectDir;
+    private $projectDir;
 
+    //https://symfony.com/doc/current/components/dependency_injection.html
     public function __construct(ParameterBagInterface $parameterBag)
     {
         $this->projectDir = $parameterBag->get('kernel.project_dir');
     }
 
-    public function upload(UploadedFile $file, FilableInterface $entity): string
+    public function upload(UploadedFile $file, FilableInterface $entity, string $propertyName): void
     {
         $publicDir = $this->projectDir . '/public';
         $fileDir   = $entity->getFileDirectory();
@@ -23,6 +24,7 @@ class FileService
 
         $file->move($publicDir.$fileDir, $filename);
 
-        return $fileDir.'/'.$filename;
+        $setter = 'set'.ucfirst($propertyName);
+        $entity->$setter($fileDir.'/'.$filename);
     }
 }

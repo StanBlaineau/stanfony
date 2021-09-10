@@ -1,7 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}Recherche film{% endblock %}
 
 {% block content %}
+    <h1>Recherche film</h1>
+    {{ form(form, {attr: {id: 'searchForm'}}) }}
 
+    <div id="messageBox"></div>
+    <div id="resultWrapper"></div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(function() {
+
+            $('#form_submit').click(function(e) {
+                e.preventDefault();
+
+               let data = $('#searchForm').serialize();
+
+                $.ajax({
+                    url: '/film/search/response',
+                    data: data,
+                    type: 'post',
+                    dataType: 'json',
+                    beforeSend: function () {
+                        $('#messageBox').html('<b>... chargement ...</b>');
+                    },
+                    success: function (json) {
+                        let html = json.view;
+
+                        $('#resultWrapper').html(html);
+                        $('#messageBox').html('');
+                    },
+                    error: function (a,z,e) {
+
+                    },
+                });
+
+            });
+        });
+    </script>
 {% endblock %}

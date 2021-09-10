@@ -8,9 +8,14 @@ use App\Entity\Realisateur;
 use App\Form\ActeurType;
 use App\Form\FilmType;
 use App\Form\RealisateurType;
+use App\Repository\FilmRepository;
 use App\Service\FileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -74,13 +79,13 @@ class FilmController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             //getData retourne l'entitée Film
+            /** @var Film $film */
             $film = $form->getData();
 
             /** @var UploadedFile $file */
             $file = $form->get('file')->getData();
 
-            $filename = $fileService->upload($file, $film);
-            $film->setImage($filename); //  /upload/film/image.jpg
+            $fileService->upload($file, $film, 'image');
 
             $em->persist($film);
             $em->flush();
@@ -93,6 +98,53 @@ class FilmController extends AbstractController
         return $this->render('film/index.html.twig', [
             'form' => $form->createView(),
             'films' => $films,
+        ]);
+    }
+
+    #[Route('/film/search', name: 'film_search')]
+    public function search(): Response
+    {
+        $form =  $this->createFormBuilder()
+            ->add('strSearch', TextType::class, [
+                'label' => 'Rechercher',
+                'required' => false,
+            ])
+            ->add('dateDebut', DateType::class, [
+                'widget' => 'single_text',
+                'required' => false,
+            ])
+            ->add('dateFin', DateType::class, [
+                'widget' => 'single_text',
+                'required' => false,
+            ])
+            ->add('acteur', EntityType::class, [
+                'class' => Acteur::class,
+                'choice_label' => 'fullname',
+                'required' => false,
+            ])
+            ->add('submit', SubmitType::class, ['label' => 'chercher'])
+            ->getForm();
+
+        return $this->render('film/film.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/film/search/response', name: 'film_search_response')]
+    public function searchResponse(Request $request, FilmRepository $filmRepository): Response
+    {
+        $form = $request->request->all();
+
+        $films = $filmRepository->search($form['form']);
+
+        // retourne le code html de la vue
+        $view = $this->renderView('film/_search.html.twig', [
+            'films' => $films,
+        ]);
+
+        // retourne une JsonResponse
+        return $this->json([
+            'view' => $view,
         ]);
     }
 }

@@ -19,6 +19,43 @@ class FilmRepository extends ServiceEntityRepository
         parent::__construct($registry, Film::class);
     }
 
+    public function search(array $params)
+    {
+        $qB = $this->createQueryBuilder('f');
+
+        if (!empty($params['strSearch'])) {
+            $qB->andWhere('f.titre LIKE :strSearch OR f.synopsis LIKE :strSearch')
+               ->setParameter('strSearch', '%'.$params['strSearch'].'%');
+        }
+
+        if (!empty($params['acteur'])) {
+            $qB->join('f.acteurs', 'a')
+                ->andWhere('a.id = :acteurId')
+                ->setParameter('acteurId', $params['acteur']);
+        }
+
+        if (!empty($params['dateDebut'])) {
+            $qB->andWhere('f.annee >= :dateDebut')
+                ->setParameter('dateDebut', $params['dateDebut']);
+        }
+
+        if (!empty($params['dateFin'])) {
+            $qB->andWhere('f.annee <= :dateFin')
+                ->setParameter('dateFin', $params['dateFin']);
+        }
+
+        return $qB->getQuery()->getResult();
+/*
+        return $this->createQueryBuilder('f')
+            ->where('f.titre LIKE :strSearch OR f.synopsis LIKE :strSearch')
+            ->setParameters([
+                'strSearch' => '%'.$params['strSearch'].'%',
+            ])
+            ->getQuery()
+            ->getResult();
+*/
+    }
+
     // /**
     //  * @return Film[] Returns an array of Film objects
     //  */

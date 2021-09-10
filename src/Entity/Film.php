@@ -163,7 +163,7 @@ class Film implements FilableInterface
         return $this;
     }
 
-    public function getFileDirectory()
+    public function getFileDirectory(): string
     {
         return self::FILE_DIR;
     }

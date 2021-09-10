@@ -4,5 +4,5 @@ namespace App\Interfaces;
 
 interface FilableInterface
 {
-    public function getFileDirectory();
+    public function getFileDirectory(): string;
 }

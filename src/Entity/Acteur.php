@@ -112,8 +112,13 @@ class Acteur
         return $this;
     }
 
-    public function __toString(): string
+    public function getFullName(): string
     {
         return $this->getPrenom() . ' ' . $this->getNom();
+    }
+
+    public function __toString(): string
+    {
+        return $this->getFullName();
     }
 }
