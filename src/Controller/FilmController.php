@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Acteur;
 use App\Entity\Film;
 use App\Entity\Realisateur;
+use App\Entity\User;
 use App\Form\ActeurType;
 use App\Form\FilmType;
 use App\Form\RealisateurType;
@@ -21,9 +22,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/film', name: 'film_')]
 class FilmController extends AbstractController
 {
-    #[Route('/film/acteur', name: 'film_acteur')]
+    #[Route('/acteur', name: 'acteur')]
     public function acteur(Request $request, EntityManagerInterface $em): Response
     {
         $acteur = new Acteur();
@@ -46,7 +48,7 @@ class FilmController extends AbstractController
         ]);
     }
 
-    #[Route('/film/realisateur', name: 'film_realisateur')]
+    #[Route('/realisateur', name: 'realisateur')]
     public function realisateur(Request $request, EntityManagerInterface $em): Response
     {
         $realisateur = new Realisateur();
@@ -69,9 +71,16 @@ class FilmController extends AbstractController
         ]);
     }
 
-    #[Route('/film', name: 'film_film')]
+    #[Route('/', name: 'film')]
     public function film(Request $request, EntityManagerInterface $em, FileService $fileService): Response
     {
+        //$user = $this->getUser();
+        //dd($user->getRoles());
+/*
+        if (!$this->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('contact_list');
+        }
+*/
         $film = new Film();
         $form = $this->createForm(FilmType::class, $film);
 
@@ -101,7 +110,7 @@ class FilmController extends AbstractController
         ]);
     }
 
-    #[Route('/film/search', name: 'film_search')]
+    #[Route('/search', name: 'search')]
     public function search(): Response
     {
         $form =  $this->createFormBuilder()
@@ -130,7 +139,7 @@ class FilmController extends AbstractController
         ]);
     }
 
-    #[Route('/film/search/response', name: 'film_search_response')]
+    #[Route('/search/response', name: 'search_response')]
     public function searchResponse(Request $request, FilmRepository $filmRepository): Response
     {
         $form = $request->request->all();

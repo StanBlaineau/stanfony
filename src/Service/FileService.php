@@ -9,22 +9,50 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class FileService
 {
     private $projectDir;
+    private $publicDir;
 
     //https://symfony.com/doc/current/components/dependency_injection.html
     public function __construct(ParameterBagInterface $parameterBag)
     {
         $this->projectDir = $parameterBag->get('kernel.project_dir');
+        $this->publicDir  = $this->projectDir . '/public';
     }
 
     public function upload(UploadedFile $file, FilableInterface $entity, string $propertyName): void
     {
-        $publicDir = $this->projectDir . '/public';
         $fileDir   = $entity->getFileDirectory();
-        $filename  = $file->getClientOriginalName();
+        $filename  = $this->getSafeFileName($file);
+        $setter    = 'set'.ucfirst($propertyName);
 
-        $file->move($publicDir.$fileDir, $filename);
+        //remove old file
+        $this->remove($entity, $propertyName);
 
-        $setter = 'set'.ucfirst($propertyName);
+        //move new file
+        $file->move($this->publicDir.$fileDir, $filename);
+
+        //save filename in entity
         $entity->$setter($fileDir.'/'.$filename);
+    }
+
+    public function remove(FilableInterface $entity, string $propertyName): void
+    {
+        $getter = 'get'.ucfirst($propertyName);
+
+        if ($entity->$getter()) {
+            $oldFileName = $this->publicDir.$entity->$getter();
+
+            if (file_exists($oldFileName)) {
+                unlink($oldFileName);
+            }
+        }
+    }
+
+    private function getSafeFileName(UploadedFile $file): string
+    {
+        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+        $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+
+        return $fileName;
     }
 }

@@ -39,6 +39,11 @@ class Acteur
      */
     private $films;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $adresse;
+
     public function __construct()
     {
         $this->films = new ArrayCollection();
@@ -120,5 +125,17 @@ class Acteur
     public function __toString(): string
     {
         return $this->getFullName();
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?string $adresse): self
+    {
+        $this->adresse = $adresse;
+
+        return $this;
     }
 }

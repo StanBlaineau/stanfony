@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page index{% endblock %}
+
+{% block body %}
+    <h1>Page index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>MenuTitre</th>
+                <th>Image</th>
+                <th>Texte</th>
+                <th>DatePublication</th>
+                <th>Active</th>
+                <th>Ordre</th>
+                <th>Slug</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for page in pages %}
+            <tr>
+                <td>{{ page.id }}</td>
+                <td>{{ page.titre }}</td>
+                <td>{{ page.menuTitre }}</td>
+                <td>
+                    {# https://symfony.com/doc/current/templating/twig_extension.html #}
+                    {% if page.image %}
+                        {{ page.image|strToImg(page.titre)|raw }}
+                    {% endif %}
+                </td>
+                <td>{{ page.texte }}</td>
+                <td>{{ page.datePublication ? page.datePublication|date('Y-m-d') : '' }}</td>
+                <td>{{ page.active ? 'Yes' : 'No' }}</td>
+                <td>{{ page.ordre }}</td>
+                <td>{{ page.slug }}</td>
+                <td>
+                    <a href="{{ path('page_show', {'id': page.id}) }}">show</a>
+                    <a href="{{ path('page_edit', {'id': page.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('page_new') }}">Create new</a>
+{% endblock %}
+
+{% block css %}
+    <style>
+        table img { height: 50px; }
+    </style>
+{% endblock %}
