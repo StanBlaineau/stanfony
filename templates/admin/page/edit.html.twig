@@ -7,7 +7,12 @@
 
     {{ include('admin/page/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('page_index') }}">back to list</a>
+    <a href="{{ path('page_index') }}" class="btn btn-link">back to list</a>
 
     {{ include('admin/page/_delete_form.html.twig') }}
+{% endblock %}
+
+{% block js %}
+    <script src="https://cdn.tiny.cloud/1/mmtelnjo7hq8l63uso5nqk221f0r1rumvtukus48ibaqs46v/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>tinymce.init({selector:'textarea', height: '500px'});</script>
 {% endblock %}

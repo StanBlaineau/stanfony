@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Page;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,6 +18,7 @@ class PageType extends AbstractType
             ->add('file', FileType::class, [
                 'mapped' => false,
                 'required' => false,
+                'label' => 'Image',
             ])
             ->add('texte')
             ->add('active')

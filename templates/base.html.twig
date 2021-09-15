@@ -42,6 +42,13 @@
                         Rechercher
                     </a>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="list-group-item">
+                        <a href="{{ path('page_index') }}">
+                            Admin
+                        </a>
+                    </li>
+                {% endif %}
                 <li class="list-group-item">
                     {% if app.user %}
                         <a href="{{ path('app_logout') }}">
@@ -58,6 +65,16 @@
                         Salut {{ app.user.username|capitalize }} !
                     </li>
                 {% endif %}
+            </ul>
+
+            <ul class="list-group list-group-horizontal mt-3">
+                {% for page in menuService.pageMenu %}
+                    <li class="list-group-item">
+                        <a href="{{ path('app_page', {slug: page.slug}) }}">
+                            {{ page.menuTitre }}
+                        </a>
+                    </li>
+                {% endfor %}
             </ul>
         </header>
 

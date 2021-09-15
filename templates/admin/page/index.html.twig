@@ -12,7 +12,6 @@
                 <th>Titre</th>
                 <th>MenuTitre</th>
                 <th>Image</th>
-                <th>Texte</th>
                 <th>DatePublication</th>
                 <th>Active</th>
                 <th>Ordre</th>
@@ -32,7 +31,6 @@
                         {{ page.image|strToImg(page.titre)|raw }}
                     {% endif %}
                 </td>
-                <td>{{ page.texte }}</td>
                 <td>{{ page.datePublication ? page.datePublication|date('Y-m-d') : '' }}</td>
                 <td>{{ page.active ? 'Yes' : 'No' }}</td>
                 <td>{{ page.ordre }}</td>

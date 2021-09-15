@@ -1,4 +1,34 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+    <div class="row">
+        <div class="col-8">
+            {{ form_row(form.titre) }}
+            {{ form_row(form.menuTitre) }}
+            {{ form_row(form.texte) }}
+        </div> <!-- .col -->
+
+        <div class="col-4">
+            {% if form.vars.value.datePublication %}
+                <p>Date de publication : {{ form.vars.value.datePublication|date('d-m-Y') }}</p>
+            {% endif %}
+
+            {% if form.vars.value.slug %}
+                <p>Slug : {{ form.vars.value.slug }}</p>
+            {% endif %}
+
+            {% if form.vars.value.image %}
+                <p>
+                    <img src="{{ form.vars.value.image }}" alt="{{ form.vars.value.image }}" class="img-fluid img-thumbnail" />
+                </p>
+            {% endif %}
+
+            {{ form_row(form.file) }}
+            {{ form_row(form.ordre) }}
+            {{ form_row(form.active) }}
+
+
+        </div> <!-- .col -->
+    </div> <!-- .row -->
+
+    <button class="btn btn-info m-1">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

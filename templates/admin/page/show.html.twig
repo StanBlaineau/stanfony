@@ -25,7 +25,7 @@
             </tr>
             <tr>
                 <th>Texte</th>
-                <td>{{ page.texte }}</td>
+                <td>{{ page.texte|raw }}</td>
             </tr>
             <tr>
                 <th>DatePublication</th>
@@ -46,9 +46,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('page_index') }}">back to list</a>
+    <a href="{{ path('page_index') }}" class="btn btn-link">back to list</a>
 
-    <a href="{{ path('page_edit', {'id': page.id}) }}">edit</a>
+    <a href="{{ path('page_edit', {'id': page.id}) }}" class="btn btn-link">edit</a>
 
     {{ include('admin/page/_delete_form.html.twig') }}
 {% endblock %}
