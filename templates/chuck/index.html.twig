@@ -6,7 +6,7 @@
     <h1>Chuck</h1>
 
     {% for categorie in categories %}
-        <a href="{{ path('chuck_categories', {categorie: categorie}) }}" class="btn btn-success my-2">
+        <a href="{{ path('chuck_categories', {categorie: categorie}) }}" class="btn btn-success m-2">
             {{ categorie|capitalize }}
         </a>
     {% endfor %}

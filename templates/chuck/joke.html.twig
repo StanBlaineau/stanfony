@@ -4,13 +4,15 @@
 
 {% block content %}
 
-    <div class="container text-center">
-        <img src="{{ joke.icon_url }}" alt="" />
+    {% if joke %}
+        <div class="container text-center">
+            <img src="{{ joke.icon_url }}" alt="" />
 
-        <blockquote>
-            <cite>{{ joke.value }}</cite>
-        </blockquote>
-    </div>
+            <blockquote>
+                <cite>{{ joke.value }}</cite>
+            </blockquote>
+        </div>
+    {% endif %}
 
     <p>
         <a href="{{ path('chuck_index') }}">Retour</a>

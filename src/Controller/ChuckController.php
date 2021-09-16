@@ -2,32 +2,38 @@
 
 namespace App\Controller;
 
+use App\Service\ChuckService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ChuckController extends AbstractController
 {
     #[Route('/chuck', name: 'chuck_index')]
-    public function index(HttpClientInterface $client): Response
+    public function index(ChuckService $chuckService): Response
     {
-        $response = $client->request('GET',  'https://api.chucknorris.io/jokes/categories');
-        $categories = json_decode($response->getContent());
+        $result = $chuckService->getCategories();
+
+        if ($result['error']) {
+            $this->addFlash('error', $result['errorMsg']);
+        }
 
         return $this->render('chuck/index.html.twig', [
-            'categories' => $categories,
+            'categories' => $result['content'],
         ]);
     }
 
-    #[Route('/chuck/categories/{categorie}', name: 'chuck_categories')]
-    public function categories(HttpClientInterface $client, string $categorie): Response
+    #[Route('/chuck/categories/{category}', name: 'chuck_categories')]
+    public function categories(ChuckService $chuckService, string $category): Response
     {
-        $response = $client->request('GET', 'https://api.chucknorris.io/jokes/random?category='.$categorie);
-        $joke = json_decode($response->getContent());
+        $result = $chuckService->getCategory($category);
+
+        if ($result['error']) {
+            $this->addFlash('error', $result['errorMsg']);
+        }
 
         return $this->render('chuck/joke.html.twig', [
-            'joke' => $joke,
+            'joke' => $result['content'],
         ]);
     }
 }
