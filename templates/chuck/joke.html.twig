@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chuck Joke{% endblock %}
+
+{% block content %}
+
+    <div class="container text-center">
+        <img src="{{ joke.icon_url }}" alt="" />
+
+        <blockquote>
+            <cite>{{ joke.value }}</cite>
+        </blockquote>
+    </div>
+
+    <p>
+        <a href="{{ path('chuck_index') }}">Retour</a>
+    </p>
+{% endblock %}

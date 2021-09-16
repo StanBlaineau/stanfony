@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chuck{% endblock %}
+
+{% block content %}
+    <h1>Chuck</h1>
+
+    {% for categorie in categories %}
+        <a href="{{ path('chuck_categories', {categorie: categorie}) }}" class="btn btn-success my-2">
+            {{ categorie|capitalize }}
+        </a>
+    {% endfor %}
+{% endblock %}
