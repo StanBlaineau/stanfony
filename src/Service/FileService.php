@@ -31,7 +31,7 @@ class FileService
         $file->move($this->publicDir.$fileDir, $filename);
 
         //save filename in entity
-        $entity->$setter($fileDir.'/'.$filename);
+        $entity->$setter($filename);
     }
 
     public function remove(FilableInterface $entity, string $propertyName): void
@@ -47,7 +47,7 @@ class FileService
         }
     }
 
-    private function getSafeFileName(UploadedFile $file): string
+    public function getSafeFileName(UploadedFile $file): string
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);

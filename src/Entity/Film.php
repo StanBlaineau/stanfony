@@ -120,6 +120,11 @@ class Film implements FilableInterface
         return $this->image;
     }
 
+    public function getImagePath()
+    {
+        return self::FILE_DIR .'/'.$this->getImage();
+    }
+
     public function setImage(string $image): self
     {
         $this->image = $image;

@@ -42,10 +42,20 @@
                         Rechercher
                     </a>
                 </li>
+                <li class="list-group-item">
+                    <a href="{{ path('chuck_index') }}">
+                        <img style="height:35px" src="https://img.icons8.com/plasticine/100/000000/chuck-norris.png" alt="Chuck"/>
+                    </a>
+                </li>
                 {% if is_granted('ROLE_ADMIN') %}
                     <li class="list-group-item">
                         <a href="{{ path('page_index') }}">
-                            Admin
+                            Pages
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="{{ path('admin') }}">
+                            EasyAdmin
                         </a>
                     </li>
                 {% endif %}
@@ -98,12 +108,19 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-        <script>
-            $(function() {
-               $('select').select2();
-            });
-        </script>
+        <script src="{{ asset('js/main.js') }}"></script>
 
         {% block js %}{% endblock %}
+
+        {% if not app.session.get('acceptCookie') %}
+            <div id="cokiealert" class="alert alert-warning" title="Clicker pour accepter les cookies" data-bs-toggle="tooltip" data-bs-placement="top">
+                <img src="https://img.icons8.com/plasticine/100/000000/cookie.png" alt="cookie" />
+                <span class="btn btn-success">
+                    <img src="https://img.icons8.com/plasticine/100/000000/chuck-norris.png" alt="Chuck"/>
+                    {{ chookieService.chookieLabel }}
+                </span>
+            </div>
+        {% endif %}
+
     </body>
 </html>

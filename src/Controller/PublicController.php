@@ -38,4 +38,14 @@ class PublicController extends AbstractController
         //redirect sur home
         return $this->redirectToRoute('film_film');
     }
+
+    #[Route('/accept-cookie', name: 'accept_cookie')]
+    public function acceptCookie(Request $request): Response
+    {
+        $session = $request->getSession();
+        $session->set('acceptCookie', true);
+
+        return $this->json(['error' => false]);
+    }
 }
+
